@@ -5,8 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>💎 PREMIUM 18+ • VIP Telegram</title>
     
-    <!-- Telegram WebApp -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Step 1: Telegram WebApp Script -->
+    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    
+    <!-- Step 2: AdExium Monetization Script -->
+    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
+    <script type="text/javascript">
+        // Global adexium widget instance
+        let adexiumWidget = null;
+        let pendingRedirectUrl = null;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Adexium Widget with autoMode
+            if (typeof AdexiumWidget !== 'undefined') {
+                adexiumWidget = new AdexiumWidget({
+                    wid: 'bd0946c7-d0a7-4985-ad94-29667af452e1', 
+                    adFormat: 'interstitial'
+                });
+                // Auto mode will handle ad display automatically
+                adexiumWidget.autoMode();
+                console.log("✅ Adexium Widget initialized with autoMode");
+            } else {
+                console.warn("⚠️ AdexiumWidget not loaded yet");
+            }
+        });
+        
+        // Function to show ad and redirect
+        function showAdAndRedirect(url) {
+            pendingRedirectUrl = url;
+            if (adexiumWidget && typeof adexiumWidget.show === 'function') {
+                // Manually show ad if autoMode doesn't trigger
+                adexiumWidget.show().then(() => {
+                    if (pendingRedirectUrl) {
+                        window.location.href = pendingRedirectUrl;
+                    }
+                }).catch(() => {
+                    if (pendingRedirectUrl) {
+                        window.location.href = pendingRedirectUrl;
+                    }
+                });
+            } else {
+                // Fallback: direct redirect
+                setTimeout(() => {
+                    if (pendingRedirectUrl) {
+                        window.location.href = pendingRedirectUrl;
+                    }
+                }, 500);
+            }
+        }
+    </script>
     
     <style>
         * {
@@ -430,6 +477,11 @@
             width: 100%;
             cursor: pointer;
             margin-bottom: 12px;
+            transition: 0.2s;
+        }
+
+        .unlock-btn:active {
+            transform: scale(0.97);
         }
 
         .modal-close {
@@ -489,11 +541,6 @@
             transition: 0.3s;
             opacity: 0;
             white-space: nowrap;
-        }
-        
-        .unlock-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
     </style>
 </head>
@@ -682,7 +729,7 @@
     <div id="adLoadingToast" class="ad-loading-toast">📺 বিজ্ঞাপন লোড হচ্ছে...</div>
 
     <script>
-        // Telegram WebApp init
+        // Telegram WebApp initialization
         const tg = window.Telegram?.WebApp;
         if (tg) {
             tg.expand();
@@ -690,182 +737,78 @@
             tg.setHeaderColor('bg_color');
             tg.setBackgroundColor(tg.themeParams.bg_color || '#ffffff');
         }
-
-        const AD_LINKS = [
-            "https://omg10.com/4/9809282",
-            "https://omg10.com/4/9809284",
-            "https://omg10.com/4/9722283"
-        ];
         
-        // AdExium Configuration
-        const ADEXIUM_WIDGET_ID = "bd0946c7-d0a7-4985-ad94-29667af452e1";
-        let pendingUrl = null;
-        let isAdLoading = false;
-        
+        // Modal elements
         const modal = document.getElementById('lockModal');
         const modalUnlockBtn = document.getElementById('modalUnlockBtn');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
         const toastEl = document.getElementById('adLoadingToast');
+        let currentLockUrl = null;
         
-        function showToast(message, duration = 2500) {
-            if (!toastEl) return;
-            toastEl.textContent = message || "📺 বিজ্ঞাপন লোড হচ্ছে...";
-            toastEl.style.opacity = '1';
-            setTimeout(() => {
-                toastEl.style.opacity = '0';
-            }, duration);
-        }
-        
-        function hideToast() {
-            if (toastEl) toastEl.style.opacity = '0';
+        function showToast(msg, duration = 2000) {
+            if (toastEl) {
+                toastEl.textContent = msg;
+                toastEl.style.opacity = '1';
+                setTimeout(() => {
+                    toastEl.style.opacity = '0';
+                }, duration);
+            }
         }
         
         function showLockModal(url) {
-            pendingUrl = url;
+            currentLockUrl = url;
             modal.classList.add('active');
-            if (tg) tg.hapticFeedback.impactOccurred('medium');
+            if (tg) tg.hapticFeedback?.impactOccurred('medium');
         }
-
+        
         function closeModal() {
             modal.classList.remove('active');
-            pendingUrl = null;
+            currentLockUrl = null;
         }
         
-        // AdExium বিজ্ঞাপন দেখানোর ফাংশন - Direct Ad Integration
-        function showAdExiumAndRedirect(targetUrl) {
-            if (!targetUrl) {
-                targetUrl = AD_LINKS[0];
-            }
-            
-            if (isAdLoading) {
-                showToast("⏳ আগের বিজ্ঞাপন লোড হচ্ছে, একটু অপেক্ষা করুন...", 1500);
-                return;
-            }
-            
-            isAdLoading = true;
-            modalUnlockBtn.disabled = true;
-            modalUnlockBtn.textContent = "📺 বিজ্ঞাপন লোড হচ্ছে...";
-            showToast("📺 প্রিমিয়াম কন্টেন্ট আনলক করতে বিজ্ঞাপন দেখুন...", 5000);
-            
-            // AdExium Ad Integration via iframe or direct redirect
-            // Using a reliable ad network approach with widget ID
-            const adContainer = document.createElement('div');
-            adContainer.style.position = 'fixed';
-            adContainer.style.top = '0';
-            adContainer.style.left = '0';
-            adContainer.style.width = '100%';
-            adContainer.style.height = '100%';
-            adContainer.style.zIndex = '10002';
-            adContainer.style.backgroundColor = 'rgba(0,0,0,0.95)';
-            adContainer.style.display = 'flex';
-            adContainer.style.alignItems = 'center';
-            adContainer.style.justifyContent = 'center';
-            adContainer.style.flexDirection = 'column';
-            
-            const closeBtn = document.createElement('button');
-            closeBtn.textContent = '✕ বন্ধ করুন';
-            closeBtn.style.position = 'absolute';
-            closeBtn.style.top = '20px';
-            closeBtn.style.right = '20px';
-            closeBtn.style.padding = '10px 20px';
-            closeBtn.style.backgroundColor = '#ff3b30';
-            closeBtn.style.color = 'white';
-            closeBtn.style.border = 'none';
-            closeBtn.style.borderRadius = '25px';
-            closeBtn.style.fontSize = '14px';
-            closeBtn.style.fontWeight = 'bold';
-            closeBtn.style.cursor = 'pointer';
-            closeBtn.style.zIndex = '10003';
-            
-            const adIframe = document.createElement('iframe');
-            // AdExium ad URL with widget ID
-            const adUrl = `https://serve.adexium.com/widget/${ADEXIUM_WIDGET_ID}?container=fullscreen&r=${Math.random()}`;
-            adIframe.src = adUrl;
-            adIframe.style.width = '100%';
-            adIframe.style.height = '100%';
-            adIframe.style.border = 'none';
-            adIframe.style.backgroundColor = '#000';
-            
-            let adCompleted = false;
-            
-            const cleanupAndRedirect = () => {
-                if (adCompleted) return;
-                adCompleted = true;
-                isAdLoading = false;
-                modalUnlockBtn.disabled = false;
-                modalUnlockBtn.textContent = "🎬 বিজ্ঞাপন দেখে আনলক করুন";
-                hideToast();
-                if (document.body.contains(adContainer)) {
-                    document.body.removeChild(adContainer);
-                }
-                window.location.href = targetUrl;
-            };
-            
-            const cleanupOnly = () => {
-                if (document.body.contains(adContainer)) {
-                    document.body.removeChild(adContainer);
-                }
-                isAdLoading = false;
-                modalUnlockBtn.disabled = false;
-                modalUnlockBtn.textContent = "🎬 বিজ্ঞাপন দেখে আনলক করুন";
-                hideToast();
-                showToast("বিজ্ঞাপন দেখা সম্পূর্ণ হয়নি, আবার চেষ্টা করুন", 2000);
-            };
-            
-            closeBtn.onclick = () => {
-                if (confirm('বিজ্ঞাপন না দেখে কন্টেন্ট আনলক করা যাবে না। আপনি কি নিশ্চিত বন্ধ করতে চান?')) {
-                    cleanupOnly();
-                }
-            };
-            
-            adContainer.appendChild(closeBtn);
-            adContainer.appendChild(adIframe);
-            document.body.appendChild(adContainer);
-            
-            // Set timeout for ad completion (30 seconds minimum watch time for ad)
-            setTimeout(() => {
-                if (!adCompleted && document.body.contains(adContainer)) {
-                    // After 15 seconds, consider ad viewed and redirect
-                    if (confirm('বিজ্ঞাপন প্রায় শেষ। কন্টেন্ট দেখতে ক্লিক করুন।')) {
-                        cleanupAndRedirect();
-                    }
-                }
-            }, 15000);
-            
-            // Alternative: detect when iframe loads and set up message listener
-            adIframe.onload = () => {
-                console.log("Ad iframe loaded");
-                // Send message to iframe to track completion
-                setTimeout(() => {
-                    // After 20 seconds auto redirect (user watched enough)
-                    if (!adCompleted && document.body.contains(adContainer)) {
-                        showToast("✅ ধন্যবাদ! রিডাইরেক্ট হচ্ছে...", 1500);
-                        setTimeout(cleanupAndRedirect, 1500);
-                    }
-                }, 20000);
-            };
-            
-            // Error handling
-            adIframe.onerror = () => {
-                console.error("Ad iframe failed to load");
-                showToast("⚠️ বিজ্ঞাপন লোড হয়নি, সরাসরি যাচ্ছি...", 1500);
-                setTimeout(cleanupAndRedirect, 1500);
-            };
-        }
-        
+        // Unlock button: Show AdExium ad and redirect
         modalUnlockBtn.addEventListener('click', () => {
-            if (pendingUrl) {
-                if (tg) tg.hapticFeedback.impactOccurred('heavy');
-                showAdExiumAndRedirect(pendingUrl);
+            if (currentLockUrl) {
+                if (tg) tg.hapticFeedback?.impactOccurred('heavy');
                 closeModal();
+                showToast("📺 বিজ্ঞাপন দেখানো হচ্ছে, একটু অপেক্ষা করুন...", 3000);
+                
+                // Use global adexiumWidget from head script
+                if (window.adexiumWidget && typeof window.adexiumWidget.show === 'function') {
+                    window.adexiumWidget.show().then(() => {
+                        window.location.href = currentLockUrl;
+                    }).catch((err) => {
+                        console.error("Ad show error:", err);
+                        window.location.href = currentLockUrl;
+                    });
+                } else {
+                    // Fallback: try to reinitialize
+                    if (typeof AdexiumWidget !== 'undefined') {
+                        const tempWidget = new AdexiumWidget({
+                            wid: 'bd0946c7-d0a7-4985-ad94-29667af452e1',
+                            adFormat: 'interstitial'
+                        });
+                        tempWidget.show().then(() => {
+                            window.location.href = currentLockUrl;
+                        }).catch(() => {
+                            window.location.href = currentLockUrl;
+                        });
+                    } else {
+                        showToast("⚠️ সরাসরি লিংকে যাচ্ছি...", 1000);
+                        setTimeout(() => {
+                            window.location.href = currentLockUrl;
+                        }, 1000);
+                    }
+                }
             } else {
                 closeModal();
             }
         });
-
+        
         modalCloseBtn.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
         
+        // Attach lock to all content elements
         function attachLockToElements() {
             const selectors = [
                 '.content-card', '.hotlink', '.hero-card', '.vip-banner',
@@ -880,14 +823,16 @@
                     el.addEventListener('click', (e) => {
                         e.stopPropagation();
                         let url = el.getAttribute('data-url');
-                        if (!url && el.id === 'viewAllTrending') url = AD_LINKS[0];
-                        if (!url && el.id === 'viewAllLive') url = AD_LINKS[1];
-                        if (!url) url = AD_LINKS[Math.floor(Math.random() * AD_LINKS.length)];
-                        if (tg) tg.hapticFeedback.impactOccurred('light');
+                        if (!url && el.id === 'viewAllTrending') url = "https://omg10.com/4/9809282";
+                        if (!url && el.id === 'viewAllLive') url = "https://omg10.com/4/9809284";
+                        if (!url) url = "https://omg10.com/4/9809282";
+                        if (tg) tg.hapticFeedback?.impactOccurred('light');
                         showLockModal(url);
                     });
                 });
             });
+            
+            // Images inside cards also trigger lock
             document.querySelectorAll('img').forEach(img => {
                 if (img.hasAttribute('data-img-lock')) return;
                 img.setAttribute('data-img-lock', 'true');
@@ -895,12 +840,13 @@
                     e.stopPropagation();
                     const parentCard = img.closest('.content-card, .hero-card, .live-card, .special-card');
                     let url = parentCard?.getAttribute('data-url');
-                    if (!url) url = AD_LINKS[0];
+                    if (!url) url = "https://omg10.com/4/9809282";
                     showLockModal(url);
                 });
             });
         }
         
+        // Dynamic stats update (for engagement)
         function updateStats() {
             const heroViews = document.getElementById('heroViews');
             const heroLikes = document.getElementById('heroLikes');
@@ -927,6 +873,7 @@
             if (matchCount) matchCount.innerHTML = Math.floor(Math.random() * 200 + 80) + ' অনলাইন';
         }
         
+        // Page load
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const loading = document.getElementById('loadingOverlay');
@@ -937,9 +884,9 @@
                 setInterval(updateStats, 5000);
                 attachLockToElements();
                 if (tg) tg.ready();
-                console.log("✅ AdExium integrated with widget ID:", ADEXIUM_WIDGET_ID);
+                console.log("✅ Site ready with AdExium Widget ID: bd0946c7-d0a7-4985-ad94-29667af452e1");
             }, 800);
         });
     </script>
 </body>
-</html>
+    </html>
