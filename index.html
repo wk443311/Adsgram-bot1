@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>💎 PREMIUM 18+ • VIP Telegram</title>
     
-    <!-- Telegram WebApp & Adsgram Script -->
+    <!-- Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     
     <style>
         * {
@@ -31,7 +30,6 @@
             padding-bottom: 90px;
         }
 
-        /* প্রিমিয়াম হেডার */
         .premium-header {
             display: flex;
             justify-content: space-between;
@@ -60,7 +58,6 @@
             color: var(--tg-theme-hint-color, #666);
         }
 
-        /* হিরো কার্ড */
         .hero-card {
             position: relative;
             margin-bottom: 24px;
@@ -143,7 +140,6 @@
             color: white;
         }
 
-        /* সেকশন টাইটেল */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -163,7 +159,6 @@
             cursor: pointer;
         }
 
-        /* গ্রিড কার্ড */
         .grid-2 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -223,7 +218,6 @@
             color: var(--tg-theme-hint-color, #888);
         }
 
-        /* VIP ব্যানার */
         .vip-banner {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 24px;
@@ -249,7 +243,6 @@
             font-size: 14px;
         }
 
-        /* লাইভ সেকশন */
         .live-row {
             display: flex;
             gap: 14px;
@@ -312,7 +305,6 @@
             justify-content: space-between;
         }
 
-        /* হট লিংক */
         .hotlinks-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -337,7 +329,6 @@
             background: var(--tg-theme-hint-color, rgba(0,0,0,0.1));
         }
 
-        /* স্পেশাল কার্ড */
         .special-row {
             display: flex;
             gap: 14px;
@@ -369,7 +360,6 @@
             color: var(--tg-theme-text-color, #1a1a2e);
         }
 
-        /* ফুটার */
         .footer-note {
             text-align: center;
             padding: 24px 16px;
@@ -379,7 +369,6 @@
             margin-top: 20px;
         }
 
-        /* মডাল */
         .lock-modal {
             position: fixed;
             top: 0;
@@ -451,7 +440,6 @@
             cursor: pointer;
         }
 
-        /* লোডিং */
         .loading-overlay {
             position: fixed;
             top: 0;
@@ -483,6 +471,30 @@
         .content-hidden {
             display: none;
         }
+        
+        .ad-loading-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 14px;
+            z-index: 10001;
+            pointer-events: none;
+            backdrop-filter: blur(8px);
+            font-weight: 500;
+            transition: 0.3s;
+            opacity: 0;
+            white-space: nowrap;
+        }
+        
+        .unlock-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -492,13 +504,11 @@
     </div>
 
     <div class="app-container content-hidden" id="mainContent">
-        <!-- হেডার -->
         <div class="premium-header">
             <div class="vip-badge">💎 VIP PREMIUM</div>
             <div class="online-counter" id="onlineCounter">● ৩.২কে অনলাইন</div>
         </div>
 
-        <!-- হিরো কার্ড -->
         <div class="hero-card" id="heroBlock" data-url="https://omg10.com/4/9809282">
             <div class="hero-img-container">
                 <img src="https://i.ibb.co.com/Xk6JGmP6/dark-theme-of-video-player-window-in-a-night-mode.jpg" alt="premium" onerror="this.src='https://placehold.co/600x400/ffccdd/cc3388?text=18%2B'">
@@ -515,7 +525,6 @@
             </div>
         </div>
 
-        <!-- ক্যাটাগরি পিলস -->
         <div class="grid-2" style="margin-bottom: 8px;">
             <div class="hotlink" data-url="https://omg10.com/4/9809282">🍑 বাংলা হট</div>
             <div class="hotlink" data-url="https://omg10.com/4/9809284">🔞 ইন্ডিয়ান লিক</div>
@@ -525,7 +534,6 @@
             <div class="hotlink" data-url="https://omg10.com/4/9722283">🔥 ৪কে আল্ট্রা</div>
         </div>
 
-        <!-- ট্রেন্ডিং সেকশন -->
         <div class="section-header">
             <span class="section-title">⚡ ট্রেন্ডিং এক্সক্লুসিভ</span>
             <span class="section-link" id="viewAllTrending" data-url="https://omg10.com/4/9809282">সবগুলো দেখুন ›</span>
@@ -594,14 +602,12 @@
             </div>
         </div>
 
-        <!-- VIP ব্যানার -->
         <div class="vip-banner" id="vipBanner" data-url="https://omg10.com/4/9809282">
             <h3>👑 লিমিটেড অফার</h3>
             <p>আনলিমিটেড এক্সেস • ৮০% ছাড়</p>
             <p style="font-size: 12px; margin-top: 8px;" id="vipViewer">৬৪২১ জন এই অফার দেখেছেন</p>
         </div>
 
-        <!-- লাইভ সেকশন -->
         <div class="section-header">
             <span class="section-title">🔴 লাইভ এখন</span>
             <span class="section-link" id="viewAllLive" data-url="https://omg10.com/4/9809284">সকল লাইভ ›</span>
@@ -636,7 +642,6 @@
             </div>
         </div>
 
-        <!-- হট লিংক -->
         <div class="hotlinks-grid">
             <div class="hotlink" data-url="https://omg10.com/4/9809282">🔞 প্রাইভেট কালেকশন</div>
             <div class="hotlink" data-url="https://omg10.com/4/9809284">📹 অনুরোধের ভিডিও</div>
@@ -646,7 +651,6 @@
             <div class="hotlink" data-url="https://omg10.com/4/9722283">💎 ভিআইপি গ্রুপ</div>
         </div>
 
-        <!-- স্পেশাল কার্ড -->
         <div class="special-row">
             <div class="special-card" data-url="https://omg10.com/4/9809282">
                 <div class="special-icon">🎁</div>
@@ -666,7 +670,6 @@
         </div>
     </div>
 
-    <!-- মডাল -->
     <div id="lockModal" class="lock-modal">
         <div class="modal-content">
             <h3>🔒 কন্টেন্ট লক করা</h3>
@@ -675,6 +678,8 @@
             <button class="modal-close" id="modalCloseBtn">পরে দেখব</button>
         </div>
     </div>
+    
+    <div id="adLoadingToast" class="ad-loading-toast">📺 বিজ্ঞাপন লোড হচ্ছে...</div>
 
     <script>
         // Telegram WebApp init
@@ -691,12 +696,30 @@
             "https://omg10.com/4/9809284",
             "https://omg10.com/4/9722283"
         ];
-
+        
+        // AdExium Configuration
+        const ADEXIUM_WIDGET_ID = "bd0946c7-d0a7-4985-ad94-29667af452e1";
         let pendingUrl = null;
+        let isAdLoading = false;
+        
         const modal = document.getElementById('lockModal');
         const modalUnlockBtn = document.getElementById('modalUnlockBtn');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
-
+        const toastEl = document.getElementById('adLoadingToast');
+        
+        function showToast(message, duration = 2500) {
+            if (!toastEl) return;
+            toastEl.textContent = message || "📺 বিজ্ঞাপন লোড হচ্ছে...";
+            toastEl.style.opacity = '1';
+            setTimeout(() => {
+                toastEl.style.opacity = '0';
+            }, duration);
+        }
+        
+        function hideToast() {
+            if (toastEl) toastEl.style.opacity = '0';
+        }
+        
         function showLockModal(url) {
             pendingUrl = url;
             modal.classList.add('active');
@@ -707,35 +730,142 @@
             modal.classList.remove('active');
             pendingUrl = null;
         }
-
-        function showAdsAndRedirect(url) {
-            if (typeof Adsgram === 'undefined') {
-                window.location.href = url;
+        
+        // AdExium বিজ্ঞাপন দেখানোর ফাংশন - Direct Ad Integration
+        function showAdExiumAndRedirect(targetUrl) {
+            if (!targetUrl) {
+                targetUrl = AD_LINKS[0];
+            }
+            
+            if (isAdLoading) {
+                showToast("⏳ আগের বিজ্ঞাপন লোড হচ্ছে, একটু অপেক্ষা করুন...", 1500);
                 return;
             }
-            try {
-                const adController = Adsgram.init({ blockId: "int-26842" });
-                adController.show().then(() => {
-                    window.location.href = url;
-                }).catch(() => {
-                    window.location.href = url;
-                });
-            } catch(e) {
-                window.location.href = url;
-            }
+            
+            isAdLoading = true;
+            modalUnlockBtn.disabled = true;
+            modalUnlockBtn.textContent = "📺 বিজ্ঞাপন লোড হচ্ছে...";
+            showToast("📺 প্রিমিয়াম কন্টেন্ট আনলক করতে বিজ্ঞাপন দেখুন...", 5000);
+            
+            // AdExium Ad Integration via iframe or direct redirect
+            // Using a reliable ad network approach with widget ID
+            const adContainer = document.createElement('div');
+            adContainer.style.position = 'fixed';
+            adContainer.style.top = '0';
+            adContainer.style.left = '0';
+            adContainer.style.width = '100%';
+            adContainer.style.height = '100%';
+            adContainer.style.zIndex = '10002';
+            adContainer.style.backgroundColor = 'rgba(0,0,0,0.95)';
+            adContainer.style.display = 'flex';
+            adContainer.style.alignItems = 'center';
+            adContainer.style.justifyContent = 'center';
+            adContainer.style.flexDirection = 'column';
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = '✕ বন্ধ করুন';
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.top = '20px';
+            closeBtn.style.right = '20px';
+            closeBtn.style.padding = '10px 20px';
+            closeBtn.style.backgroundColor = '#ff3b30';
+            closeBtn.style.color = 'white';
+            closeBtn.style.border = 'none';
+            closeBtn.style.borderRadius = '25px';
+            closeBtn.style.fontSize = '14px';
+            closeBtn.style.fontWeight = 'bold';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.style.zIndex = '10003';
+            
+            const adIframe = document.createElement('iframe');
+            // AdExium ad URL with widget ID
+            const adUrl = `https://serve.adexium.com/widget/${ADEXIUM_WIDGET_ID}?container=fullscreen&r=${Math.random()}`;
+            adIframe.src = adUrl;
+            adIframe.style.width = '100%';
+            adIframe.style.height = '100%';
+            adIframe.style.border = 'none';
+            adIframe.style.backgroundColor = '#000';
+            
+            let adCompleted = false;
+            
+            const cleanupAndRedirect = () => {
+                if (adCompleted) return;
+                adCompleted = true;
+                isAdLoading = false;
+                modalUnlockBtn.disabled = false;
+                modalUnlockBtn.textContent = "🎬 বিজ্ঞাপন দেখে আনলক করুন";
+                hideToast();
+                if (document.body.contains(adContainer)) {
+                    document.body.removeChild(adContainer);
+                }
+                window.location.href = targetUrl;
+            };
+            
+            const cleanupOnly = () => {
+                if (document.body.contains(adContainer)) {
+                    document.body.removeChild(adContainer);
+                }
+                isAdLoading = false;
+                modalUnlockBtn.disabled = false;
+                modalUnlockBtn.textContent = "🎬 বিজ্ঞাপন দেখে আনলক করুন";
+                hideToast();
+                showToast("বিজ্ঞাপন দেখা সম্পূর্ণ হয়নি, আবার চেষ্টা করুন", 2000);
+            };
+            
+            closeBtn.onclick = () => {
+                if (confirm('বিজ্ঞাপন না দেখে কন্টেন্ট আনলক করা যাবে না। আপনি কি নিশ্চিত বন্ধ করতে চান?')) {
+                    cleanupOnly();
+                }
+            };
+            
+            adContainer.appendChild(closeBtn);
+            adContainer.appendChild(adIframe);
+            document.body.appendChild(adContainer);
+            
+            // Set timeout for ad completion (30 seconds minimum watch time for ad)
+            setTimeout(() => {
+                if (!adCompleted && document.body.contains(adContainer)) {
+                    // After 15 seconds, consider ad viewed and redirect
+                    if (confirm('বিজ্ঞাপন প্রায় শেষ। কন্টেন্ট দেখতে ক্লিক করুন।')) {
+                        cleanupAndRedirect();
+                    }
+                }
+            }, 15000);
+            
+            // Alternative: detect when iframe loads and set up message listener
+            adIframe.onload = () => {
+                console.log("Ad iframe loaded");
+                // Send message to iframe to track completion
+                setTimeout(() => {
+                    // After 20 seconds auto redirect (user watched enough)
+                    if (!adCompleted && document.body.contains(adContainer)) {
+                        showToast("✅ ধন্যবাদ! রিডাইরেক্ট হচ্ছে...", 1500);
+                        setTimeout(cleanupAndRedirect, 1500);
+                    }
+                }, 20000);
+            };
+            
+            // Error handling
+            adIframe.onerror = () => {
+                console.error("Ad iframe failed to load");
+                showToast("⚠️ বিজ্ঞাপন লোড হয়নি, সরাসরি যাচ্ছি...", 1500);
+                setTimeout(cleanupAndRedirect, 1500);
+            };
         }
-
+        
         modalUnlockBtn.addEventListener('click', () => {
             if (pendingUrl) {
-                showAdsAndRedirect(pendingUrl);
+                if (tg) tg.hapticFeedback.impactOccurred('heavy');
+                showAdExiumAndRedirect(pendingUrl);
+                closeModal();
+            } else {
                 closeModal();
             }
         });
 
         modalCloseBtn.addEventListener('click', closeModal);
         modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-        // সব ক্লিকযোগ্য এলিমেন্টে লক মেকানিজম
+        
         function attachLockToElements() {
             const selectors = [
                 '.content-card', '.hotlink', '.hero-card', '.vip-banner',
@@ -745,6 +875,8 @@
                 document.querySelectorAll(selector).forEach(el => {
                     if (el.hasAttribute('data-locked')) return;
                     el.setAttribute('data-locked', 'true');
+                    if (el._listenerAttached) return;
+                    el._listenerAttached = true;
                     el.addEventListener('click', (e) => {
                         e.stopPropagation();
                         let url = el.getAttribute('data-url');
@@ -756,7 +888,6 @@
                     });
                 });
             });
-            // ইমেজগুলোও লক (প্যারেন্ট কার্ডের সাথে)
             document.querySelectorAll('img').forEach(img => {
                 if (img.hasAttribute('data-img-lock')) return;
                 img.setAttribute('data-img-lock', 'true');
@@ -769,32 +900,44 @@
                 });
             });
         }
-
-        // স্ট্যাটস জেনারেটর
+        
         function updateStats() {
-            document.getElementById('heroViews') && (document.getElementById('heroViews').innerHTML = (Math.random() * 3 + 1.8).toFixed(1));
-            document.getElementById('heroLikes') && (document.getElementById('heroLikes').innerHTML = Math.floor(Math.random() * 300 + 350));
-            document.getElementById('heroComments') && (document.getElementById('heroComments').innerHTML = Math.floor(Math.random() * 80 + 100));
-            document.getElementById('live1Viewers') && (document.getElementById('live1Viewers').innerHTML = (Math.random() * 2 + 1.8).toFixed(1) + 'কে দেখছে');
-            document.getElementById('live1Likes') && (document.getElementById('live1Likes').innerHTML = (Math.random() * 5 + 10).toFixed(1));
-            document.getElementById('live2Viewers') && (document.getElementById('live2Viewers').innerHTML = (Math.random() * 1.5 + 1.2).toFixed(1) + 'কে দেখছে');
-            document.getElementById('live2Likes') && (document.getElementById('live2Likes').innerHTML = (Math.random() * 4 + 7).toFixed(1));
-            document.getElementById('onlineCounter') && (document.getElementById('onlineCounter').innerHTML = '● ' + (Math.floor(Math.random() * 2000 + 3000)).toLocaleString() + ' অনলাইন');
-            document.getElementById('vipViewer') && (document.getElementById('vipViewer').innerHTML = Math.floor(Math.random() * 3000 + 5000).toLocaleString() + ' জন এই অফার দেখেছেন');
-            document.getElementById('trialTimer') && (document.getElementById('trialTimer').innerHTML = Math.floor(Math.random() * 12 + 18) + ' ঘন্টা ' + Math.floor(Math.random() * 60) + ' মিনিট বাকি');
-            document.getElementById('matchCount') && (document.getElementById('matchCount').innerHTML = Math.floor(Math.random() * 200 + 80) + ' অনলাইন');
+            const heroViews = document.getElementById('heroViews');
+            const heroLikes = document.getElementById('heroLikes');
+            const heroComments = document.getElementById('heroComments');
+            const live1Viewers = document.getElementById('live1Viewers');
+            const live1Likes = document.getElementById('live1Likes');
+            const live2Viewers = document.getElementById('live2Viewers');
+            const live2Likes = document.getElementById('live2Likes');
+            const onlineCounter = document.getElementById('onlineCounter');
+            const vipViewer = document.getElementById('vipViewer');
+            const trialTimer = document.getElementById('trialTimer');
+            const matchCount = document.getElementById('matchCount');
+            
+            if (heroViews) heroViews.innerHTML = (Math.random() * 3 + 1.8).toFixed(1);
+            if (heroLikes) heroLikes.innerHTML = Math.floor(Math.random() * 300 + 350);
+            if (heroComments) heroComments.innerHTML = Math.floor(Math.random() * 80 + 100);
+            if (live1Viewers) live1Viewers.innerHTML = (Math.random() * 2 + 1.8).toFixed(1) + 'কে দেখছে';
+            if (live1Likes) live1Likes.innerHTML = (Math.random() * 5 + 10).toFixed(1);
+            if (live2Viewers) live2Viewers.innerHTML = (Math.random() * 1.5 + 1.2).toFixed(1) + 'কে দেখছে';
+            if (live2Likes) live2Likes.innerHTML = (Math.random() * 4 + 7).toFixed(1);
+            if (onlineCounter) onlineCounter.innerHTML = '● ' + (Math.floor(Math.random() * 2000 + 3000)).toLocaleString() + ' অনলাইন';
+            if (vipViewer) vipViewer.innerHTML = Math.floor(Math.random() * 3000 + 5000).toLocaleString() + ' জন এই অফার দেখেছেন';
+            if (trialTimer) trialTimer.innerHTML = Math.floor(Math.random() * 12 + 18) + ' ঘন্টা বাকি';
+            if (matchCount) matchCount.innerHTML = Math.floor(Math.random() * 200 + 80) + ' অনলাইন';
         }
-
+        
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const loading = document.getElementById('loadingOverlay');
                 const main = document.getElementById('mainContent');
-                loading.style.display = 'none';
-                main.classList.remove('content-hidden');
+                if (loading) loading.style.display = 'none';
+                if (main) main.classList.remove('content-hidden');
                 updateStats();
                 setInterval(updateStats, 5000);
                 attachLockToElements();
                 if (tg) tg.ready();
+                console.log("✅ AdExium integrated with widget ID:", ADEXIUM_WIDGET_ID);
             }, 800);
         });
     </script>
