@@ -5,55 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>💎 PREMIUM 18+ • VIP Telegram</title>
     
-    <!-- Step 1: Telegram WebApp Script -->
-    <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-    
-    <!-- Step 2: AdExium Monetization Script -->
-    <script type="text/javascript" src="https://cdn.tgads.space/assets/js/adexium-widget.min.js"></script>
-    <script type="text/javascript">
-        // Global adexium widget instance
-        let adexiumWidget = null;
-        let pendingRedirectUrl = null;
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize Adexium Widget with autoMode
-            if (typeof AdexiumWidget !== 'undefined') {
-                adexiumWidget = new AdexiumWidget({
-                    wid: 'bd0946c7-d0a7-4985-ad94-29667af452e1', 
-                    adFormat: 'interstitial'
-                });
-                // Auto mode will handle ad display automatically
-                adexiumWidget.autoMode();
-                console.log("✅ Adexium Widget initialized with autoMode");
-            } else {
-                console.warn("⚠️ AdexiumWidget not loaded yet");
-            }
-        });
-        
-        // Function to show ad and redirect
-        function showAdAndRedirect(url) {
-            pendingRedirectUrl = url;
-            if (adexiumWidget && typeof adexiumWidget.show === 'function') {
-                // Manually show ad if autoMode doesn't trigger
-                adexiumWidget.show().then(() => {
-                    if (pendingRedirectUrl) {
-                        window.location.href = pendingRedirectUrl;
-                    }
-                }).catch(() => {
-                    if (pendingRedirectUrl) {
-                        window.location.href = pendingRedirectUrl;
-                    }
-                });
-            } else {
-                // Fallback: direct redirect
-                setTimeout(() => {
-                    if (pendingRedirectUrl) {
-                        window.location.href = pendingRedirectUrl;
-                    }
-                }, 500);
-            }
-        }
-    </script>
+    <!-- Telegram WebApp -->
+    <script src="https://ad.gigapub.tech/script?id=6233"></script>
     
     <style>
         * {
@@ -219,6 +172,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             border: 1px solid var(--tg-theme-hint-color, rgba(0,0,0,0.05));
+            position: relative;
         }
 
         .content-card:active {
@@ -243,6 +197,7 @@
             font-size: 10px;
             font-weight: 700;
             color: white;
+            z-index: 2;
         }
 
         .card-info {
@@ -332,6 +287,7 @@
             font-size: 10px;
             font-weight: 700;
             color: white;
+            z-index: 2;
         }
 
         .live-info {
@@ -477,11 +433,11 @@
             width: 100%;
             cursor: pointer;
             margin-bottom: 12px;
-            transition: 0.2s;
         }
 
-        .unlock-btn:active {
-            transform: scale(0.97);
+        .unlock-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .modal-close {
@@ -541,6 +497,10 @@
             transition: 0.3s;
             opacity: 0;
             white-space: nowrap;
+        }
+        
+        .ad-loading-toast.show {
+            opacity: 1;
         }
     </style>
 </head>
@@ -729,7 +689,7 @@
     <div id="adLoadingToast" class="ad-loading-toast">📺 বিজ্ঞাপন লোড হচ্ছে...</div>
 
     <script>
-        // Telegram WebApp initialization
+        // Telegram WebApp init
         const tg = window.Telegram?.WebApp;
         if (tg) {
             tg.expand();
@@ -737,116 +697,204 @@
             tg.setHeaderColor('bg_color');
             tg.setBackgroundColor(tg.themeParams.bg_color || '#ffffff');
         }
+
+        const AD_LINKS = [
+            "https://omg10.com/4/9809282",
+            "https://omg10.com/4/9809284",
+            "https://omg10.com/4/9722283"
+        ];
         
-        // Modal elements
+        let pendingUrl = null;
+        let isAdLoading = false;
+        
         const modal = document.getElementById('lockModal');
         const modalUnlockBtn = document.getElementById('modalUnlockBtn');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
         const toastEl = document.getElementById('adLoadingToast');
-        let currentLockUrl = null;
         
-        function showToast(msg, duration = 2000) {
-            if (toastEl) {
-                toastEl.textContent = msg;
-                toastEl.style.opacity = '1';
-                setTimeout(() => {
-                    toastEl.style.opacity = '0';
-                }, duration);
-            }
+        function showToast(message, duration = 2500) {
+            if (!toastEl) return;
+            toastEl.textContent = message || "📺 বিজ্ঞাপন লোড হচ্ছে...";
+            toastEl.classList.add('show');
+            setTimeout(() => {
+                toastEl.classList.remove('show');
+            }, duration);
+        }
+        
+        function hideToast() {
+            if (toastEl) toastEl.classList.remove('show');
         }
         
         function showLockModal(url) {
-            currentLockUrl = url;
+            pendingUrl = url;
             modal.classList.add('active');
-            if (tg) tg.hapticFeedback?.impactOccurred('medium');
+            if (tg) tg.hapticFeedback.impactOccurred('medium');
         }
-        
+
         function closeModal() {
             modal.classList.remove('active');
-            currentLockUrl = null;
+            pendingUrl = null;
         }
         
-        // Unlock button: Show AdExium ad and redirect
-        modalUnlockBtn.addEventListener('click', () => {
-            if (currentLockUrl) {
-                if (tg) tg.hapticFeedback?.impactOccurred('heavy');
-                closeModal();
-                showToast("📺 বিজ্ঞাপন দেখানো হচ্ছে, একটু অপেক্ষা করুন...", 3000);
-                
-                // Use global adexiumWidget from head script
-                if (window.adexiumWidget && typeof window.adexiumWidget.show === 'function') {
-                    window.adexiumWidget.show().then(() => {
-                        window.location.href = currentLockUrl;
-                    }).catch((err) => {
-                        console.error("Ad show error:", err);
-                        window.location.href = currentLockUrl;
-                    });
-                } else {
-                    // Fallback: try to reinitialize
-                    if (typeof AdexiumWidget !== 'undefined') {
-                        const tempWidget = new AdexiumWidget({
-                            wid: 'bd0946c7-d0a7-4985-ad94-29667af452e1',
-                            adFormat: 'interstitial'
-                        });
-                        tempWidget.show().then(() => {
-                            window.location.href = currentLockUrl;
-                        }).catch(() => {
-                            window.location.href = currentLockUrl;
-                        });
-                    } else {
-                        showToast("⚠️ সরাসরি লিংকে যাচ্ছি...", 1000);
-                        setTimeout(() => {
-                            window.location.href = currentLockUrl;
-                        }, 1000);
-                    }
+        // Giga Pub Ad Integration - Dynamic script loading
+        function loadGigaPubSDK() {
+            return new Promise((resolve, reject) => {
+                // Check if already loaded
+                if (window.GigaPubReady || typeof window.showGiga === 'function') {
+                    resolve();
+                    return;
                 }
+                
+                const script = document.createElement('script');
+                script.src = 'https://ad.gigapub.tech/script?id=6233';
+                script.async = true;
+                script.onload = () => {
+                    console.log("Giga Pub SDK loaded");
+                    // Wait a bit for the SDK to initialize
+                    setTimeout(() => {
+                        if (typeof window.showGiga === 'function') {
+                            window.GigaPubReady = true;
+                            resolve();
+                        } else {
+                            reject(new Error("showGiga function not available after load"));
+                        }
+                    }, 500);
+                };
+                script.onerror = () => {
+                    reject(new Error("Failed to load Giga Pub SDK"));
+                };
+                document.head.appendChild(script);
+            });
+        }
+        
+        // Show ad and redirect
+        async function showAdAndRedirect(targetUrl) {
+            if (!targetUrl) {
+                targetUrl = AD_LINKS[0];
+            }
+            
+            if (isAdLoading) {
+                showToast("⏳ আগের বিজ্ঞাপন লোড হচ্ছে, একটু অপেক্ষা করুন...", 1500);
+                return false;
+            }
+            
+            isAdLoading = true;
+            modalUnlockBtn.disabled = true;
+            modalUnlockBtn.textContent = "📺 বিজ্ঞাপন লোড হচ্ছে...";
+            showToast("📺 জিগা পাব এড লোড হচ্ছে, দয়া করে অপেক্ষা করুন...", 8000);
+            
+            try {
+                // Make sure Giga Pub SDK is loaded
+                await loadGigaPubSDK();
+                
+                // Check if showGiga function exists
+                if (typeof window.showGiga !== 'function') {
+                    throw new Error("showGiga function not available");
+                }
+                
+                showToast("📺 এড খোলা হচ্ছে, দেখুন এবং আনলক করুন...", 5000);
+                
+                // Call Giga Pub ad
+                await window.showGiga();
+                
+                // Ad completed successfully
+                showToast("✅ ধন্যবাদ! রিডাইরেক্ট হচ্ছে...", 1500);
+                if (tg) tg.hapticFeedback.notificationOccurred('success');
+                
+                // Redirect after short delay
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 800);
+                
+                return true;
+                
+            } catch (error) {
+                console.error("Giga Pub ad error:", error);
+                showToast("⚠️ এড লোড করতে সমস্যা হয়েছে, আবার চেষ্টা করুন", 2500);
+                
+                // Reset states
+                isAdLoading = false;
+                modalUnlockBtn.disabled = false;
+                modalUnlockBtn.textContent = "🎬 বিজ্ঞাপন দেখে আনলক করুন";
+                
+                return false;
+            }
+        }
+        
+        // Modal unlock button click handler
+        modalUnlockBtn.addEventListener('click', async () => {
+            if (pendingUrl) {
+                if (tg) tg.hapticFeedback.impactOccurred('heavy');
+                await showAdAndRedirect(pendingUrl);
+                closeModal();
             } else {
                 closeModal();
             }
         });
-        
+
         modalCloseBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        modal.addEventListener('click', (e) => { 
+            if (e.target === modal) closeModal(); 
+        });
         
-        // Attach lock to all content elements
+        // Attach lock to all clickable elements
         function attachLockToElements() {
-            const selectors = [
+            // Select all lockable elements
+            const lockableSelectors = [
                 '.content-card', '.hotlink', '.hero-card', '.vip-banner',
                 '.live-card', '.special-card', '#viewAllTrending', '#viewAllLive'
             ];
-            selectors.forEach(selector => {
+            
+            lockableSelectors.forEach(selector => {
                 document.querySelectorAll(selector).forEach(el => {
                     if (el.hasAttribute('data-locked')) return;
                     el.setAttribute('data-locked', 'true');
-                    if (el._listenerAttached) return;
-                    el._listenerAttached = true;
-                    el.addEventListener('click', (e) => {
+                    
+                    // Remove any existing listener to avoid duplicates
+                    const newEl = el.cloneNode(true);
+                    if (el.parentNode) {
+                        el.parentNode.replaceChild(newEl, el);
+                    }
+                    
+                    // Add click listener
+                    newEl.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        let url = el.getAttribute('data-url');
-                        if (!url && el.id === 'viewAllTrending') url = "https://omg10.com/4/9809282";
-                        if (!url && el.id === 'viewAllLive') url = "https://omg10.com/4/9809284";
-                        if (!url) url = "https://omg10.com/4/9809282";
-                        if (tg) tg.hapticFeedback?.impactOccurred('light');
+                        e.preventDefault();
+                        
+                        let url = newEl.getAttribute('data-url');
+                        if (!url && newEl.id === 'viewAllTrending') url = AD_LINKS[0];
+                        if (!url && newEl.id === 'viewAllLive') url = AD_LINKS[1];
+                        if (!url) url = AD_LINKS[Math.floor(Math.random() * AD_LINKS.length)];
+                        
+                        if (tg) tg.hapticFeedback.impactOccurred('light');
                         showLockModal(url);
                     });
+                    
+                    // Update reference if needed
+                    if (selector === '.hero-card') {
+                        document.getElementById('heroBlock');
+                    }
                 });
             });
             
-            // Images inside cards also trigger lock
-            document.querySelectorAll('img').forEach(img => {
-                if (img.hasAttribute('data-img-lock')) return;
-                img.setAttribute('data-img-lock', 'true');
-                img.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const parentCard = img.closest('.content-card, .hero-card, .live-card, .special-card');
-                    let url = parentCard?.getAttribute('data-url');
-                    if (!url) url = "https://omg10.com/4/9809282";
-                    showLockModal(url);
-                });
+            // Handle images separately
+            document.querySelectorAll('.card-img, .hero-img-container img, .live-img img').forEach(img => {
+                const parentCard = img.closest('.content-card, .hero-card, .live-card');
+                if (parentCard && !parentCard.hasAttribute('data-img-listener')) {
+                    parentCard.setAttribute('data-img-listener', 'true');
+                    // Image click should trigger parent card
+                    img.style.cursor = 'pointer';
+                    img.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        let url = parentCard.getAttribute('data-url');
+                        if (!url) url = AD_LINKS[0];
+                        showLockModal(url);
+                    });
+                }
             });
         }
         
-        // Dynamic stats update (for engagement)
+        // Random stats update for realism
         function updateStats() {
             const heroViews = document.getElementById('heroViews');
             const heroLikes = document.getElementById('heroLikes');
@@ -873,20 +921,23 @@
             if (matchCount) matchCount.innerHTML = Math.floor(Math.random() * 200 + 80) + ' অনলাইন';
         }
         
-        // Page load
+        // Initialize app
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const loading = document.getElementById('loadingOverlay');
                 const main = document.getElementById('mainContent');
                 if (loading) loading.style.display = 'none';
                 if (main) main.classList.remove('content-hidden');
+                
                 updateStats();
                 setInterval(updateStats, 5000);
                 attachLockToElements();
+                
                 if (tg) tg.ready();
-                console.log("✅ Site ready with AdExium Widget ID: bd0946c7-d0a7-4985-ad94-29667af452e1");
+                
+                console.log("✅ Giga Pub Ad System ready - Click any locked content to watch ad and unlock");
             }, 800);
         });
     </script>
 </body>
-</html>
+                </html>
